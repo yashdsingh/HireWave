@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HireWave</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0f14;--p:#10161d;--p2:#161e27;--bd:#222d38;--tx:#e8edf2;--dim:#8b9aa8;--teal:#2dd4bf;--tealbg:#16352f;--ink:#04201c;--red:#f87171;--org:#f5b94c;--grn:#4ade80;color-scheme:dark}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f3f6f8;--p:#fff;--p2:#eef2f5;--bd:#d8e0e6;--tx:#12202b;--dim:#586a79;--teal:#0f8f80;--tealbg:#d9f3ef;--ink:#fff;--red:#c62828;--org:#a86a00;--grn:#1b8a3f;color-scheme:light}}
+:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--tx);font:14px/1.45 Inter,system-ui,sans-serif}
+body{padding-top:env(safe-area-inset-top,0px)}
+header{display:flex;align-items:center;gap:10px;padding:12px 16px;font-weight:800;font-size:17px;letter-spacing:-.02em}
+.mk{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--teal),#3b82f6);color:var(--ink);display:grid;place-items:center;font-size:13px;font-weight:900}
+main{padding:0 14px calc(90px + env(safe-area-inset-bottom,0px));max-width:760px;margin:0 auto}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--p);border-top:1px solid var(--bd);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;background:none;border:0;color:var(--dim);font:600 11px Inter;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button i{font-style:normal;font-size:18px}nav button.on{color:var(--teal)}
+h1{font-size:21px;margin:6px 0 2px}h2{font-size:14px;margin:0 0 10px}.sub{color:var(--dim);margin:0 0 14px}
+.card{background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.stat{background:var(--p);border:1px solid var(--bd);border-radius:12px;padding:12px}.stat b{display:block;font-size:24px}.stat span{color:var(--dim);font-size:12px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}.row:last-child{border:0}.row>div{flex:1;min-width:0}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;color:#0b0f14;flex:none}
+.fit{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--teal);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--teal);flex:none}
+.fit.m{border-color:var(--org);color:var(--org)}.sm{color:var(--dim);font-size:12px}
+.pill{display:inline-block;border:1px solid var(--bd);background:var(--p2);color:var(--dim);border-radius:20px;padding:3px 10px;font-size:11.5px;margin:0 4px 4px 0}
+.pill.g{border-color:var(--teal);color:var(--teal)}.pill.w{border-color:var(--org);color:var(--org)}
+.b{display:inline-block;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:600;background:var(--p2);color:var(--dim)}
+.b.t{background:var(--tealbg);color:var(--teal)}.b.r{color:var(--red)}
+button.btn{border:1px solid var(--bd);background:var(--p2);color:var(--tx);border-radius:9px;padding:10px 14px;font:600 13px Inter}
+button.btn.pr{background:var(--teal);border-color:var(--teal);color:var(--ink)}button.btn:disabled{opacity:.45}
+.full{width:100%}input,textarea,select{width:100%;background:var(--p2);border:1px solid var(--bd);border-radius:9px;padding:10px;color:var(--tx);font:14px Inter;margin-bottom:8px}
+textarea{resize:vertical}label{font-size:12px;color:var(--dim)}
+.al{border-radius:9px;padding:10px;font-size:12.5px;margin:0 0 10px;border:1px solid var(--bd);background:var(--p2)}
+.al.w{border-color:var(--org);color:var(--org)}.al.e{border-color:var(--red);color:var(--red)}
+.chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:4px}.chips button{flex:none}
+button.chip{border:1px solid var(--bd);background:var(--p);color:var(--dim);border-radius:20px;padding:6px 13px;font:600 12.5px Inter;white-space:nowrap}
+button.chip.on{background:var(--tealbg);border-color:var(--teal);color:var(--teal)}
+.fn{height:30px;border-radius:6px;background:var(--teal);color:var(--ink);display:flex;align-items:center;padding:0 10px;font-weight:700;margin-bottom:8px}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+</style></head><body>
+<header><span class="mk">H</span>HireWave</header>
+<main id="v"></main>
+<nav id="nav"></nav>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const COL=['#3b82f6','#a855f7','#22c55e','#f97316','#ec4899','#8b5cf6','#2dd4bf'];
+const init=n=>n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+const S={tab:'home',cand:null,stage:'All',
+ cands:[
+ {id:1,n:'Priya Raman',t:'Full Stack Developer',l:'Austin, TX',sk:['React','TypeScript','AWS'],gap:['Kubernetes'],f:92,st:'Screened',ok:1,why:'Deep React and TypeScript experience with AWS deployment; led a team of 3.'},
+ {id:2,n:'Maya Chen',t:'Senior Full Stack Engineer',l:'Berlin, Germany',sk:['React','TypeScript','Node.js','Postgres','AWS'],gap:['Kubernetes','Terraform'],f:87,st:'Sourced',ok:1,why:'Scaled full-stack apps to 10M+ users and improved API performance by 60%.'},
+ {id:3,n:'Marcus Kim',t:'Software Engineer',l:'Seattle, WA',sk:['Python','Django','AWS'],gap:['React','TypeScript'],f:88,st:'Sourced',ok:1,why:'Strong backend fundamentals; frontend depth unconfirmed.'},
+ {id:4,n:'James Tran',t:'Full Stack Developer',l:'San Francisco, CA',sk:['React','Node.js','Postgres'],gap:['AWS'],f:84,st:'Sourced',ok:1,why:'Direct stack match across React, Node and Postgres.'},
+ {id:5,n:'Sofia Chen',t:'Software Engineer',l:'Toronto, CA',sk:['Python','React','Docker'],gap:['TypeScript','AWS'],f:79,st:'Screened',ok:1,why:'Well-rounded full-stack profile with container experience.'},
+ {id:6,n:'Elena Lopez',t:'Frontend Developer',l:'New York, NY',sk:['React','Next.js','TypeScript'],gap:['AWS','Postgres'],f:76,st:'Shortlisted',ok:1,why:'Excellent frontend craft; limited backend exposure.'},
+ {id:7,n:'Daniel Park',t:'Full Stack Developer',l:'Vancouver, BC',sk:['React','Kubernetes','AWS'],gap:['Postgres'],f:62,st:'Opted out',ok:0,why:'Good infra skills but opted out of outreach. Do not contact.'}],
+ jobs:[{t:'Senior Full Stack Developer',l:'Remote (US)',sk:['React','TypeScript','Postgres','AWS'],d:'Own features end to end across a React/Node/Postgres stack on AWS. 5+ years building production web apps; mentoring experience.'},
+ {t:'Backend Engineer',l:'Berlin, Germany',sk:['Python','Django','Postgres','Docker'],d:'Build and scale core APIs. 3+ years Python backend, relational databases at scale, Docker.'}],
+ job:0,ai:null,sel:[],multi:null,busy:0,err:'',sent:{},ext:[],oc:null};
+const TABS=[['home','▦','Home'],['jobs','📄','Jobs'],['cands','👤','People'],['slate','🏁','Slate'],['out','✉','Outreach'],['ext','🔎','Extract']];
+const $=id=>document.getElementById(id);
+function go(t,c){S.tab=t;if(c!==undefined)S.cand=c;draw();scrollTo(0,0)}
+function draw(){
+ $('nav').innerHTML=TABS.map(([k,i,l])=>`<button class="${S.tab===k||(k==='cands'&&S.tab==='det')?'on':''}" onclick="go('${k}',null)"><i>${i}</i>${l}</button>`).join('');
+ $('v').innerHTML=({home,jobs,cands,det,slate,out,ext})[S.tab]();
+}
+const fitc=f=>`<div class="fit ${f<80?'m':''}">${f}</div>`;
+const person=(c,extra='')=>`<div class="row" onclick="go('det',${c.id})"><div class="av" style="background:${COL[c.id%7]}">${init(c.n)}</div><div><b>${esc(c.n)}</b><div class="sm">${esc(c.t)} · ${esc(c.l)}</div>${extra}</div>${fitc(c.f)}</div>`;
+function home(){
+ const sl=S.cands.filter(c=>c.st==='Shortlisted').length;
+ return `<h1>Good morning, Jamie</h1><p class="sub">Pipeline for ${esc(S.jobs[S.job].t)}</p>
+ <div class="grid"><div class="stat"><span>Candidates</span><b>${S.cands.length}</b></div><div class="stat"><span>Shortlisted</span><b>${sl}</b></div>
+ <div class="stat"><span>Screened</span><b>${S.cands.filter(c=>c.st==='Screened').length}</b></div><div class="stat"><span>Avg fit</span><b>${Math.round(S.cands.reduce((a,c)=>a+c.f,0)/S.cands.length)}</b></div></div>
+ <div class="card"><h2>Pipeline</h2><div class="fn" style="width:100%">${S.cands.length} Sourced</div><div class="fn" style="width:60%;opacity:.8">${S.cands.filter(c=>c.st!=='Sourced').length} Screened+</div><div class="fn" style="width:30%;opacity:.6">${sl} Shortlisted</div></div>
+ <div class="card"><h2>Top matches</h2>${[...S.cands].sort((a,b)=>b.f-a.f).slice(0,3).map(c=>person(c)).join('')}</div>
+ <button class="btn pr full" onclick="go('jobs')">Find candidates with AI</button>`;
+}
+function jobs(){
+ const j=S.jobs[S.job];
+ return `<h1>Jobs</h1><p class="sub">Pick a job or paste any description. AI plans where to find people near the job's location.</p>
+ <div class="chips">${S.jobs.map((x,i)=>`<button class="chip ${i===S.job?'on':''}" onclick="S.job=${i};S.ai=null;S.err='';draw()">${esc(x.t)}</button>`).join('')}</div>
+ <div class="card"><h2>${esc(j.t)}</h2><div class="sm" style="margin-bottom:8px">${esc(j.l)}</div>${j.sk.map(s=>`<span class="pill">${esc(s)}</span>`).join('')}<p class="sm">${esc(j.d)}</p>
+ <button class="btn pr full" id="src" onclick="source()" ${S.busy?'disabled':''}>${S.busy?'Claude is thinking…':'Source candidates with AI'}</button></div>
+ ${S.err?`<div class="al e">${esc(S.err)}</div>`:''}${aiView()}${multiCard()}${multiView()}
+ <div class="card"><h2>New job</h2><input id="nt" placeholder="Job title"><input id="nl" placeholder="Location, e.g. Manchester UK or Remote"><textarea id="nd" rows="5" placeholder="Paste the job description. Any role, any industry."></textarea><button class="btn full" onclick="addJob()">Save job</button></div>`;
+}
+function aiView(){
+ const a=S.ai;if(!a)return'';
+ return `<div class="card"><h2>AI sourcing plan <span class="b t">Live from Claude</span></h2>
+ <div class="al w">These are AI-suggested leads, not verified real people. Confirm identity and details before outreach.</div>
+ <p class="sm">${esc(a.notes)}</p>
+ ${(a.where||[]).map(w=>`<div class="row"><div><b>${esc(w.place)}</b><div class="sm">${esc(w.why)}</div></div></div>`).join('')}
+ <h2 style="margin-top:14px">Suggested leads</h2>
+ ${(a.leads||[]).map((l,i)=>`<div class="row"><div><b>${esc(l.name)}</b><div class="sm">${esc(l.title)} · ${esc(l.location)}</div><div class="sm">${esc(l.reason)}</div><span class="pill">${esc(l.source)}</span></div><button class="btn" onclick="addLead(${i})">Add</button></div>`).join('')}</div>`;
+}
+async function source(){
+ const j=S.jobs[S.job];S.busy=1;S.err='';S.ai=null;draw();
+ try{
+  const sample=await claude.use('sample');
+  if(!sample)throw new Error('AI is not available in this view. Open the page from the Claude app or claude.ai.');
+  S.ai=await sample.json(`You are a recruiting research assistant. Job: ${j.t}. Location: ${j.l}. Skills: ${j.sk.join(', ')}. Description: ${j.d}
+Return ONLY JSON: {"notes":"2 sentences on the sourcing approach, considering the job location and whether it is remote","where":[{"place":"specific nearby community, meetup, university, job board or company to source from","why":"one sentence"}] (5 items),"leads":[{"name":"","title":"","location":"","reason":"one sentence","source":"likely channel"}] (6 illustrative profiles near the job location)}. Leads are illustrative, not real individuals.`);
+ }catch(e){S.err=(e&&e.message)||'Sourcing failed. Try again.'}
+ S.busy=0;draw();
+}
+
+function tog(i){S.sel=S.sel.includes(i)?S.sel.filter(x=>x!==i):[...S.sel,i];draw()}
+function multiCard(){
+ const n=S.sel.length;
+ return `<div class="card"><h2>Source for multiple jobs</h2><p class="sm">Tick up to 5 jobs. One AI run covers them all and flags people who could fit more than one role.</p>
+ ${S.jobs.map((x,i)=>`<label class="row" style="cursor:pointer"><input type="checkbox" style="width:auto;margin:0 10px 0 0" ${S.sel.includes(i)?'checked':''} onchange="tog(${i})"><div><b>${esc(x.t)}</b><div class="sm">${esc(x.l)}</div></div></label>`).join('')}
+ <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" onclick="S.sel=S.jobs.map((_,i)=>i).slice(0,5);draw()">Select all</button><button class="btn pr" style="flex:1" onclick="sourceMulti()" ${S.busy||!n?'disabled':''}>${S.busy?'Claude is thinking…':'Source for '+n+' job'+(n===1?'':'s')}</button></div></div>`;
+}
+async function sourceMulti(){
+ if(!S.sel.length)return;
+ if(S.sel.length>5){S.err='Pick 5 jobs or fewer per run so results stay accurate.';draw();return}
+ const js=S.sel.map(i=>S.jobs[i]);S.busy=1;S.err='';S.multi=null;draw();
+ try{
+  const sample=await claude.use('sample');
+  if(!sample)throw new Error('AI is not available in this view. Open the page from the Claude app or claude.ai.');
+  const list=js.map((j,k)=>`Job ${k+1}: ${j.t}. Location: ${j.l}. Skills: ${j.sk.join(', ')}. Description: ${j.d}`).join('\n');
+  const r=await sample.json(`You are a recruiting research assistant. Plan sourcing for ALL of these open jobs together:\n${list}\nReturn ONLY JSON: {"notes":"2 sentences on the overall approach and where jobs overlap","results":[{"job":<job number>,"where":[{"place":"specific nearby community, meetup, university, job board or company","why":"one sentence"}] (3 items),"leads":[{"name":"","title":"","location":"near that job's location","reason":"one sentence","source":"likely channel","also_fits":[other job numbers this profile genuinely fits, may be empty]}] (4 items)}]}. One results entry per job. Leads are illustrative, not real individuals.`);
+  r.results=(r.results||[]).map(x=>({...x,j:js[(x.job||1)-1]||js[0],fits:null})).map(x=>({...x,leads:(x.leads||[]).map(l=>({...l,also:(l.also_fits||[]).map(n=>js[n-1]&&js[n-1].t).filter(t=>t&&t!==x.j.t)}))}));
+  S.multi=r;
+ }catch(e){S.err=(e&&e.message)||'Sourcing failed. Try again.'}
+ S.busy=0;draw();
+}
+function multiView(){
+ const m=S.multi;if(!m)return'';
+ const total=(m.results||[]).reduce((a,r)=>a+r.leads.length,0);
+ const cross=(m.results||[]).reduce((a,r)=>a+r.leads.filter(l=>l.also.length).length,0);
+ return `<div class="card"><h2>Multi-job results <span class="b t">Live from Claude</span></h2>
+ <div class="al w">AI-suggested leads, not verified real people. Confirm identity and details before outreach.</div>
+ <p class="sm">${esc(m.notes||'')}</p><p class="sm"><b>${total}</b> leads across <b>${m.results.length}</b> jobs · <b>${cross}</b> fit more than one role</p></div>
+ ${m.results.map((r,ri)=>`<div class="card"><h2>${esc(r.j.t)}</h2><div class="sm" style="margin-bottom:8px">${esc(r.j.l)}</div>
+ ${(r.where||[]).map(w=>`<div class="row"><div><b>${esc(w.place)}</b><div class="sm">${esc(w.why)}</div></div></div>`).join('')}
+ <h2 style="margin-top:14px">Suggested leads</h2>
+ ${r.leads.map((l,li)=>`<div class="row"><div><b>${esc(l.name)}</b><div class="sm">${esc(l.title)} · ${esc(l.location)}</div><div class="sm">${esc(l.reason)}</div><span class="pill">${esc(l.source)}</span>${l.also.map(t=>`<span class="pill">Also fits: ${esc(t)}</span>`).join('')}</div><button class="btn" onclick="addMulti(${ri},${li})">Add</button></div>`).join('')}
+ <button class="btn full" style="margin-top:10px" onclick="addAll(${ri})">Add all ${r.leads.length} to People</button></div>`).join('')}`;
+}
+function pushLead(r,l){
+ if(S.cands.some(c=>c.n.toLowerCase()===String(l.name).toLowerCase()))return 0;
+ S.cands.push({id:S.cands.length+1,n:l.name,t:l.title,l:l.location,sk:r.j.sk.slice(0,3),gap:[],f:70+Math.floor(Math.random()*20),st:'Sourced',ok:1,why:l.reason+(l.also.length?' Also fits: '+l.also.join(', ')+'.':'')+' (AI-suggested, unverified)'});return 1;
+}
+function addMulti(ri,li){const r=S.multi.results[ri],l=r.leads[li];alert(pushLead(r,l)?l.name+' added to People':l.name+' is already in People')}
+function addAll(ri){const r=S.multi.results[ri];const n=r.leads.reduce((a,l)=>a+pushLead(r,l),0);alert(n+' added to People'+(n<r.leads.length?' ('+(r.leads.length-n)+' duplicates skipped)':''))}
+function addLead(i){const l=S.ai.leads[i];S.cands.push({id:S.cands.length+1,n:l.name,t:l.title,l:l.location,sk:S.jobs[S.job].sk.slice(0,3),gap:[],f:70+Math.floor(Math.random()*20),st:'Sourced',ok:1,why:l.reason+' (AI-suggested, unverified)'});alert(l.name+' added to People');}
+function addJob(){const t=$('nt').value.trim();if(!t)return;const d=$('nd').value;const known=['React','TypeScript','Node.js','Python','Django','Postgres','AWS','Kubernetes','Terraform','Docker','Java','SQL','Go','Excel','Sales','Salesforce'];
+ S.jobs.unshift({t,l:$('nl').value||'Remote',sk:known.filter(k=>d.toLowerCase().includes(k.toLowerCase())),d:d||'No description.'});S.job=0;S.ai=null;S.sel=[];S.multi=null;draw();}
+function cands(){
+ const st=['All','Sourced','Screened','Shortlisted'];
+ const rows=S.cands.filter(c=>S.stage==='All'||c.st===S.stage).sort((a,b)=>b.f-a.f);
+ return `<h1>People</h1><p class="sub">${S.cands.length} candidates ranked by fit</p>
+ <div class="chips">${st.map(s=>`<button class="chip ${S.stage===s?'on':''}" onclick="S.stage='${s}';draw()">${s}</button>`).join('')}</div>
+ <div class="card">${rows.map(c=>person(c,`<span class="b ${c.ok?'t':'r'}">${esc(c.st)}</span>`)).join('')||'<p class="sm">No candidates in this stage.</p>'}</div>`;
+}
+function det(){
+ const c=S.cands.find(x=>x.id===S.cand)||S.cands[0];
+ return `<button class="btn" onclick="go('cands')">← Back</button>
+ <div class="card" style="margin-top:12px"><div class="row" style="border:0"><div class="av" style="background:${COL[c.id%7]};width:48px;height:48px;font-size:16px">${init(c.n)}</div><div><h1 style="margin:0">${esc(c.n)}</h1><div class="sm">${esc(c.t)} · ${esc(c.l)}</div></div>${fitc(c.f)}</div></div>
+ <div class="card"><h2>Why this candidate</h2><p class="sm" style="color:var(--tx)">${esc(c.why)}</p>
+ <h2>Matched skills</h2>${c.sk.map(s=>`<span class="pill g">${esc(s)}</span>`).join('')}
+ ${c.gap.length?`<h2 style="margin-top:10px">Potential gaps</h2>${c.gap.map(s=>`<span class="pill w">${esc(s)}</span>`).join('')}`:''}</div>
+ <div class="card"><h2>Consent</h2><p class="sm">${c.ok?'Opted in to be contacted.':'Opted out. Outreach is disabled.'}</p></div>
+ <button class="btn pr full" ${c.ok?'':'disabled'} onclick="c_short(${c.id})">Add to shortlist</button>
+ <button class="btn full" style="margin-top:8px" ${c.ok?'':'disabled'} onclick="S.oc=${c.id};go('out')">Write outreach</button>`;
+}
+function c_short(id){S.cands.find(c=>c.id===id).st='Shortlisted';draw()}
+function draftFor(c){return `Hi ${c.n.split(' ')[0]},\n\nI came across your background in ${c.sk.slice(0,2).join(' and ')} and think it lines up well with a ${S.jobs[S.job].t} role we're hiring for.\n\nWould you be open to a quick call next week?\n\nBest,\nJamie\nHireWave`}
+function out(){
+ const list=S.cands.filter(c=>c.st!=='Sourced'||c.id===S.oc||true);
+ const c=S.cands.find(x=>x.id===S.oc)||S.cands[0];
+ const sent=S.sent[c.id];
+ return `<h1>Outreach</h1><p class="sub">Drafts are checked against consent before sending.</p>
+ <div class="chips">${S.cands.map(x=>`<button class="chip ${x.id===c.id?'on':''}" onclick="S.oc=${x.id};draw()">${esc(x.n.split(' ')[0])}${S.sent[x.id]?' ✓':''}</button>`).join('')}</div>
+ <div class="card"><h2>To ${esc(c.n)}</h2>
+ ${c.ok?'':'<div class="al w">This candidate opted out. Do not send outreach.</div>'}
+ <label>Subject</label><input id="os" value="Your ${esc(c.sk[0])} work caught my eye"><label>Message</label><textarea id="ob" rows="10">${esc(draftFor(c))}</textarea>
+ <button class="btn pr full" ${c.ok&&!sent?'':'disabled'} onclick="S.sent[${c.id}]=1;draw()">${sent?'Marked as sent':'Approve and mark as sent'}</button></div>`;
+}
+function ext(){
+ return `<h1>Contact extractor</h1><p class="sub">Paste a résumé or signature. Emails, phones and links are pulled out in your browser.</p>
+ <div class="card"><textarea id="et" rows="6" placeholder="Paste text here"></textarea><button class="btn pr full" onclick="runExt()">Extract contacts</button></div>
+ <div class="al">This is a browser demo. The full extractor (URLs, PDFs, phone verification, GDPR opt-out, export) lives in the Flask backend in your zip.</div>
+ ${S.ext.length?`<div class="card"><h2>${S.ext.length} found</h2>${S.ext.map(x=>`<div class="row"><div><b style="word-break:break-all">${esc(x.v)}</b><div class="sm">${x.k}</div></div><span class="b t">${x.c}%</span></div>`).join('')}</div>`:''}`;
+}
+function runExt(){
+ const t=$('et').value,o=[];
+ (t.match(/[\w.+-]+@[\w-]+\.[\w.-]+/g)||[]).forEach(v=>o.push({k:'Email',v,c:/gmail|yahoo|hotmail/i.test(v)?70:90}));
+ (t.match(/\+?\d[\d\s().-]{8,}\d/g)||[]).forEach(v=>o.push({k:'Phone',v:v.trim(),c:80}));
+ (t.match(/https?:\/\/[^\s)]+|linkedin\.com\/in\/[\w-]+|github\.com\/[\w-]+/g)||[]).forEach(v=>o.push({k:'Link',v,c:85}));
+ S.ext=o;draw();if(!o.length)$('v').insertAdjacentHTML('beforeend','<div class="al">Nothing found. Check the text includes an email, phone or link.</div>');
+}
+
+/* ---- Ranked slate (merged): intake, sourcing run, ranked list, compare, run health ---- */
+const SLCOL={skills:'#2dd4bf',title:'#3b82f6',commute:'#f59e0b',experience:'#a855f7',certs:'#5b6b7a'};
+const SLAB={verified_source:['Verified source','t'],reported:['Reported','t'],probable:['Probable','t'],unverified:['Unverified','w'],not_found:['Not found','']};
+const SLSTG=['Parsing job description','Planning queries','Searching GitHub','Searching Stack Overflow','Removing duplicates','Scoring candidates','Looking up contacts'];
+const SLJD={t:'Senior Data Engineer',req:['Python','SQL','Spark','Airflow','AWS','dbt','Kafka','Data modeling'],pref:['Snowflake','Terraform'],yrs:'7+ years, Senior',loc:'Orlando, FL 32835 · hybrid',con:'W2, 12 months',as:'Education treated as preferred, not required. No salary range in the JD, so none was assumed.'};
+const slm=(n,t,src,url,loc,mi,mn,b,ok,miss,why,lab,val,fl=[])=>({n,t,src,url,loc,mi,mn,b,sc:Object.values(b).reduce((a,x)=>a+x,0),ok,miss,why,lab,val,fl,st:'new',sh:0,note:''});
+const SLDATA=[
+slm('Naresh Iyer','Senior Data Engineer','GitHub','https://github.com/example-naresh','Orlando, FL',9.4,22,{skills:34,title:20,commute:18,experience:15,certs:5},['Python','SQL','Spark','Airflow','AWS','dbt'],['Kafka'],'Strong match on 6 of 8 required skills and a near-identical title. Short commute.','verified_source','naresh@example.com'),
+slm('Priya Nair','Lead Data Engineer','Stack Overflow','https://stackoverflow.com/users/000001/priya','Winter Park, FL',25.0,51,{skills:31,title:18,commute:11,experience:15,certs:5},['Python','SQL','Spark','Kafka','AWS'],['dbt','Airflow'],'Good skills fit and a Lead title. Commute is long at peak hours.','probable','priya.nair@example.org'),
+slm('Marcus Webb','Data Platform Engineer','GitHub','https://github.com/example-marcus','Lakeland, FL',36.7,67,{skills:29,title:14,commute:6,experience:13,certs:5},['Python','SQL','Airflow','Terraform'],['Spark','dbt','Kafka'],'Platform background with strong Airflow work. Long commute and 3 gaps.','unverified','marcus@example.dev'),
+slm('Elena Rossi','Senior Analytics Engineer','GitHub','https://github.com/example-elena','Kissimmee, FL',17.8,40,{skills:26,title:12,commute:13,experience:12,certs:5},['SQL','dbt','Snowflake','Python'],['Spark','Kafka','AWS'],'Analytics-leaning. Strong dbt and SQL, thin on streaming.','not_found','',['Identity uncertain: same name on 2 platforms']),
+slm('Tom Alvarez','Data Engineer','Stack Overflow','https://stackoverflow.com/users/000002/tom','Sanford, FL',28.3,55,{skills:22,title:10,commute:9,experience:8,certs:5},['Python','SQL','AWS'],['Spark','Airflow','dbt','Kafka'],'Mid-level profile. Years of experience are unclear, so scored neutrally.','reported','+1 407 555 0142'),
+slm('Aisha Khan','Staff Data Engineer','GitHub','https://github.com/example-aisha','Orlando, FL',12.1,28,{skills:35,title:20,commute:17,experience:15,certs:5},['Python','SQL','Spark','Airflow','AWS','dbt','Kafka'],[],'Covers every required skill with a Staff title. Best overall match.','verified_source','aisha@example.io')
+].sort((a,b)=>b.sc-a.sc);
+const SL={view:'intake',parsed:0,run:null,list:null,open:null,picked:[],only:0,tm:null};
+const slbar=b=>`<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--bd);margin:6px 0" title="${Object.entries(b).map(([k,v])=>k+' '+v).join(', ')}">${Object.entries(b).map(([k,v])=>`<i style="width:${v}%;background:${SLCOL[k]}"></i>`).join('')}</div>`;
+const slpills=(a,c)=>a.map(x=>`<span class="pill ${c||''}">${c?'missing: ':''}${esc(x)}</span>`).join('');
+function slate(){
+ const V=[['intake','Intake'],['rank','Ranked'],['cmp','Compare'],['hl','Health']];
+ const body={intake:slIntake,rank:slRank,cmp:slCmp,hl:slHealth}[SL.view]();
+ return `<h1>Ranked slate</h1><p class="sub">Parse a job, run sourcing, then rank, shortlist, compare and export.</p><div class="chips">${V.map(([k,l])=>`<button class="chip ${SL.view===k?'on':''}" onclick="SL.view='${k}';draw()">${l}</button>`).join('')}</div>${body}`;
+}
+function slIntake(){
+ const j=SLJD,r=SL.run,busy=r&&!r.done&&!r.cancelled;
+ let h=`<div class="card"><h2>Job description</h2><textarea rows="4" aria-label="Job description">Senior Data Engineer, Orlando FL (hybrid, W2, 12 months). 7+ years with Python, SQL, Spark, Airflow, AWS, dbt, Kafka.</textarea><button class="btn pr full" onclick="SL.parsed=1;draw()">Parse job description</button></div>`;
+ if(SL.parsed)h+=`<div class="card"><h2>${j.t}</h2><div class="sm">Required</div>${slpills(j.req)}<div class="sm">Preferred</div>${slpills(j.pref)}<p class="sm">${j.yrs} · ${j.loc} · ${j.con}</p><p class="sm">Assumptions: ${j.as}</p><button class="btn pr full" ${busy?'disabled':''} onclick="slStart()">Find candidates</button></div>`;
+ if(r)h+=`<div class="card"><h2>${r.cancelled?'Cancelled. Partial results kept.':r.done?'Finished':SLSTG[r.i]}</h2><div style="height:8px;background:var(--bd);border-radius:4px;overflow:hidden;margin:8px 0"><i style="display:block;height:100%;width:${r.i/SLSTG.length*100}%;background:var(--teal)"></i></div><div class="sm">${r.sec.toFixed(1)}s elapsed · ${Math.round(r.i/SLSTG.length*SLDATA.length)} candidates found</div>${busy?`<button class="btn full" style="margin-top:8px" onclick="clearInterval(SL.tm);SL.run.cancelled=1;draw()">Cancel run</button>`:''}${r.done?`<button class="btn pr full" style="margin-top:8px" onclick="SL.view='rank';draw()">View ranked slate</button>`:''}</div>`;
+ return h;
+}
+function slStart(){clearInterval(SL.tm);SL.run={i:0,sec:0};SL.tm=setInterval(()=>{SL.run.i++;SL.run.sec+=1.2;if(SL.run.i>=SLSTG.length){SL.run.done=1;clearInterval(SL.tm);SL.list=SLDATA}if(S.tab==='slate'&&SL.view==='intake')draw()},1200);draw()}
+function slRank(){
+ if(!SL.list)return `<div class="card"><p class="sm">No candidates yet. Run a search from Intake.</p><button class="btn full" onclick="SL.view='intake';draw()">Go to Intake</button></div>`;
+ const rows=SL.only?SL.list.filter(c=>c.sh):SL.list;
+ return `<div class="card"><div style="display:flex;gap:8px;align-items:center;margin-bottom:8px"><label style="flex:1"><input type="checkbox" style="width:auto;margin:0 6px 0 0" ${SL.only?'checked':''} onchange="SL.only=this.checked;draw()">Shortlist only</label><button class="btn" onclick="slCsv()">Export CSV</button></div>
+ <div class="sm" style="display:flex;gap:10px;flex-wrap:wrap">${Object.entries(SLCOL).map(([k,c])=>`<span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:${c};margin-right:4px"></i>${k}</span>`).join('')}</div>
+ ${rows.map(c=>{const i=SL.list.indexOf(c),L=SLAB[c.lab];return `<div class="row" style="display:block"><div style="display:flex;gap:10px;align-items:center"><input type="checkbox" style="width:auto;margin:0" aria-label="Compare ${esc(c.n)}" ${SL.picked.includes(i)?'checked':''} onchange="slPick(${i})"><div style="flex:1;min-width:0" onclick="SL.open=SL.open===${i}?null:${i};draw()"><b>${esc(c.n)}</b><div class="sm">${esc(c.t)} · ${esc(c.src)}</div></div>${fitc(c.sc)}</div>${slbar(c.b)}
+ <div class="sm">${c.mi} mi · ${c.mn} min peak · <span class="b ${L[1]}" ${L[1]==='w'?'style="color:var(--org)"':''}>${L[0]}</span> ${esc(c.val||'No contact found')}</div>
+ <div style="display:flex;gap:8px;margin-top:6px"><select aria-label="Status for ${esc(c.n)}" style="margin:0" onchange="SL.list[${i}].st=this.value">${['new','contacted','interviewing','rejected'].map(s=>`<option ${s===c.st?'selected':''}>${s}</option>`).join('')}</select><button class="btn ${c.sh?'pr':''}" onclick="SL.list[${i}].sh=${c.sh?0:1};draw()">${c.sh?'Shortlisted':'Shortlist'}</button></div>
+ ${SL.open===i?`<p class="sm" style="margin-top:8px">${esc(c.why)}</p>${slpills(c.ok,'g')}${slpills(c.miss,'w')}${c.fl.map(f=>`<div class="al w">Flag: ${esc(f)}</div>`).join('')}<div class="sm" style="word-break:break-all">Source: ${esc(c.url)} · retrieved 17 Oct 2026</div><textarea rows="2" placeholder="Add a note" onblur="SL.list[${i}].note=this.value">${esc(c.note)}</textarea>`:''}</div>`}).join('')}</div>`;
+}
+function slPick(i){SL.picked=SL.picked.includes(i)?SL.picked.filter(x=>x!==i):[...SL.picked,i].slice(-3);draw()}
+function slCmp(){
+ const s=SL.picked.map(i=>SL.list[i]);
+ if(s.length<2)return `<div class="card"><p class="sm">Tick the box on 2 or 3 candidates in Ranked, then come back here.</p></div>`;
+ const r=(l,f)=>`<tr><td class="sm" style="padding:6px 4px;vertical-align:top">${l}</td>${s.map(c=>`<td style="padding:6px 4px;vertical-align:top">${f(c)}</td>`).join('')}</tr>`;
+ return `<div class="card" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:300px"><tr><td></td>${s.map(c=>`<td style="padding:6px 4px"><b>${esc(c.n)}</b></td>`).join('')}</tr>${r('Score',c=>`<b>${c.sc}</b>`)}${r('Breakdown',c=>slbar(c.b))}${r('Commute',c=>`${c.mi} mi · ${c.mn} min`)}${r('Matched',c=>esc(c.ok.join(', ')))}${r('Missing',c=>esc(c.miss.join(', ')||'None'))}${r('Contact',c=>SLAB[c.lab][0])}${r('Why',c=>esc(c.why))}</table></div>`;
+}
+function slHealth(){
+ return `<div class="grid">${[['Search queries',6],['Page fetches',21],['Cache hits',9],['Estimated cost','$0.00']].map(([l,v])=>`<div class="stat"><span>${l}</span><b>${v}</b></div>`).join('')}</div><p class="sm">Static demo numbers. GitHub, Stack Overflow, NPI Registry and OSRM routing are free to call.</p>`;
+}
+function slCsv(){
+ const cols=['n','t','sc','src','loc','mi','mn','st','sh','note'],q=v=>{let x=String(v??'');if(/^[=+\-@]/.test(x))x="'"+x;return `"${x.replace(/"/g,'""')}"`};
+ const t=[['name','title','score','source','location','miles','mins','status','shortlisted','notes'].join(','),...SLDATA.map(c=>cols.map(k=>q(c[k])).join(','))].join('\n');
+ const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(t);a.download='hirewave-candidates.csv';a.click();
+}
+draw();
+</script></body></html>

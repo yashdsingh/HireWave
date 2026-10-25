@@ -1,0 +1,160 @@
+{
+  "jobs": [
+    {
+      "t": "Senior Full Stack Developer",
+      "l": "Remote (US)",
+      "sk": [
+        "React",
+        "TypeScript",
+        "Postgres",
+        "AWS"
+      ],
+      "d": "Own features end to end across a React/Node/Postgres stack on AWS. 5+ years building production web apps; mentoring experience."
+    },
+    {
+      "t": "Backend Engineer",
+      "l": "Berlin, Germany",
+      "sk": [
+        "Python",
+        "Django",
+        "Postgres",
+        "Docker"
+      ],
+      "d": "Build and scale core APIs. 3+ years Python backend, relational databases at scale, Docker."
+    }
+  ],
+  "candidates": [
+    {
+      "id": 1,
+      "n": "Priya Raman",
+      "t": "Full Stack Developer",
+      "l": "Austin, TX",
+      "sk": [
+        "React",
+        "TypeScript",
+        "AWS"
+      ],
+      "gap": [
+        "Kubernetes"
+      ],
+      "f": 92,
+      "st": "Screened",
+      "ok": 1,
+      "why": "Deep React and TypeScript experience with AWS deployment; led a team of 3."
+    },
+    {
+      "id": 2,
+      "n": "Maya Chen",
+      "t": "Senior Full Stack Engineer",
+      "l": "Berlin, Germany",
+      "sk": [
+        "React",
+        "TypeScript",
+        "Node.js",
+        "Postgres",
+        "AWS"
+      ],
+      "gap": [
+        "Kubernetes",
+        "Terraform"
+      ],
+      "f": 87,
+      "st": "Sourced",
+      "ok": 1,
+      "why": "Scaled full-stack apps to 10M+ users and improved API performance by 60%."
+    },
+    {
+      "id": 3,
+      "n": "Marcus Kim",
+      "t": "Software Engineer",
+      "l": "Seattle, WA",
+      "sk": [
+        "Python",
+        "Django",
+        "AWS"
+      ],
+      "gap": [
+        "React",
+        "TypeScript"
+      ],
+      "f": 88,
+      "st": "Sourced",
+      "ok": 1,
+      "why": "Strong backend fundamentals; frontend depth unconfirmed."
+    },
+    {
+      "id": 4,
+      "n": "James Tran",
+      "t": "Full Stack Developer",
+      "l": "San Francisco, CA",
+      "sk": [
+        "React",
+        "Node.js",
+        "Postgres"
+      ],
+      "gap": [
+        "AWS"
+      ],
+      "f": 84,
+      "st": "Sourced",
+      "ok": 1,
+      "why": "Direct stack match across React, Node and Postgres."
+    },
+    {
+      "id": 5,
+      "n": "Sofia Chen",
+      "t": "Software Engineer",
+      "l": "Toronto, CA",
+      "sk": [
+        "Python",
+        "React",
+        "Docker"
+      ],
+      "gap": [
+        "TypeScript",
+        "AWS"
+      ],
+      "f": 79,
+      "st": "Screened",
+      "ok": 1,
+      "why": "Well-rounded full-stack profile with container experience."
+    },
+    {
+      "id": 6,
+      "n": "Elena Lopez",
+      "t": "Frontend Developer",
+      "l": "New York, NY",
+      "sk": [
+        "React",
+        "Next.js",
+        "TypeScript"
+      ],
+      "gap": [
+        "AWS",
+        "Postgres"
+      ],
+      "f": 76,
+      "st": "Shortlisted",
+      "ok": 1,
+      "why": "Excellent frontend craft; limited backend exposure."
+    },
+    {
+      "id": 7,
+      "n": "Daniel Park",
+      "t": "Full Stack Developer",
+      "l": "Vancouver, BC",
+      "sk": [
+        "React",
+        "Kubernetes",
+        "AWS"
+      ],
+      "gap": [
+        "Postgres"
+      ],
+      "f": 62,
+      "st": "Opted out",
+      "ok": 0,
+      "why": "Good infra skills but opted out of outreach. Do not contact."
+    }
+  ]
+}

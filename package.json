@@ -1,0 +1,9 @@
+{
+  "name": "hirewave-workspace",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix full-stack/frontend run dev",
+    "build": "npm --prefix full-stack/frontend run build",
+    "preview": "npm --prefix full-stack/frontend run preview"
+  }
+}

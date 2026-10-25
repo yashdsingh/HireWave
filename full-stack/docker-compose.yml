@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASS:-hirewave}
+      POSTGRES_DB: hirewave
+    volumes: ["pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 20
+    ports: ["5432:5432"]
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    ports: ["6379:6379"]
+
+  api:
+    build: ./backend
+    command: gunicorn -w 4 -k gthread --threads 8 -t 180 -b 0.0.0.0:8080 app:app
+    ports: ["8080:8080"]
+    env_file: [.env]
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_started}
+    volumes: ["./backend:/app"]
+
+volumes: {pg: {}}
